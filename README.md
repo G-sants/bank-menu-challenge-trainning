@@ -6,7 +6,7 @@
 How to Use it:
 
 First:
-Choose one of the options in beetween: 
+Choose one of the options in between: 
  -creating an account;
  -viewing your account;
  -exiting the app;
@@ -27,10 +27,10 @@ if don't, them just select to enter the applicantion.
    Can be made with any value.
    
   2- Cash out;
-   Can only be made if the value beeing taken out is not greater than the value the user has.
+   Can only be made if the value being taken out is not greater than the value the user has.
    
   3- Transfer;
-   Can only be made if the value beeing taken out is not greater than the value the user has.
+   Can only be made if the value being taken out is not greater than the value the user has.
    
   4- View/Change Limit;
    Limit changes are made due to history in transactions and will be implemented by asking but the values are not decided by the user,
@@ -44,4 +44,4 @@ if don't, them just select to enter the applicantion.
   #################################################################################################################################################
 
 OBSERVATIONS
- The code does not preserve anything, so once closed it will delete avery information created.
+ The code does not preserve anything, so once closed it will delete every information created.
