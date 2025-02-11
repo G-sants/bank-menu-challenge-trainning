@@ -5,7 +5,7 @@ import static java.lang.System.*;
 
 public class MenuBanco {
 
-    static boolean cadastroVerVal(long n) {
+    static boolean cpfVAL(long n) {
         if (n < 10000000000L || n > 99999999999L) {
             out.println("Por favor digite um CPF válido");
             return false;
@@ -34,13 +34,13 @@ public class MenuBanco {
         }
     }
 
-    private static Map<Long, Usuario> ListaCPF = new HashMap<>();
+    static Map<Long, Usuario> ListaCPF = new HashMap<>();
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(in);
         String nomeUser;
-        long  cpf;
+        long  cpf, menuTransfer;
         int menuInicial, menuUsuario, menuConta, menuLimite;
         double deposito, saque, transfer;
 
@@ -78,7 +78,7 @@ public class MenuBanco {
                         }  else {
                             boolean f;
                             cpf=scanner.nextLong();
-                            f=cadastroVerVal(cpf);
+                            f= cpfVAL(cpf);
 
                             if (!f){
                             continue;
@@ -192,10 +192,23 @@ public class MenuBanco {
                                             transfer = scanner.nextDouble();
 
                                             if (usuario.getSaldo() > transfer) {
-                                                usuario.transSaldo(transfer);
-                                                out.println("Saldo Atualizado: " + usuario.getSaldo());
+                                                out.println("Digite o CPF que irá receber");
+                                                while(true) {
+                                                    if (!scanner.hasNextLong()) {
+                                                        out.println("Por Favor digite um CPF válido (apenas Números)");
+                                                        scanner.next();
+                                                        continue;
+                                                    }
+                                                    menuTransfer = scanner.nextLong();
+                                                    boolean t =cpfVAL(menuTransfer);
 
-                                                /* ADICIONAR RECEBIMENTO PARA OUTRO USUÁRIO*/
+                                                    if (!t) {
+                                                        continue;
+                                                    }
+                                                    break;
+                                                }
+                                                usuario.transRet(transfer, menuTransfer);
+                                                out.println("Saldo Atualizado: " + usuario.getSaldo());
 
                                             } else {
                                                 out.println("Saldo Inuficiente");
@@ -225,14 +238,7 @@ public class MenuBanco {
                                                     out.println("Seu Limite Atual:" + usuario.getLimite());
                                                     break;
                                                 case 2:
-                                                    double vLimite = 0.0;
-                                               /* vLimite = usuario.valLimite();
-                                                if (vLimite) {
-                                                     usuario.alterarLimite(nLimite);
-                                                } else {
-                                                     out.println("Não é possivel Alterar seu Limite no Momento");
-                                                }
-                                                break;*/
+                                                    usuario.valLimite();
                                             }
                                             break;
                                         }

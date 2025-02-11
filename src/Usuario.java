@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Usuario {
@@ -36,19 +35,19 @@ public class Usuario {
         return lista;
     }
 
-/*    public double valLimite() {
-        PUXAR HISTÓRICO DE TRANSAÇÕES
-        double nVal
-
+    public void valLimite() {
+        double nVal=0.0;
+        for (int i=0;i < histVal.size();i++) {
+            nVal += Math.abs(histVal.get(i));
+        }
         if (nVal > 0) {
             alterarLimite(nVal);
-            return;
         } else {
-            return
-                    System.out.println("Não foi possível alterar seu limite no Momento");
+            System.out.println("Não foi possível alterar seu limite no Momento");
         }
+
     }
-*/
+
 
     public void alterarLimite(double ver){
         ver -= limite;
@@ -93,20 +92,30 @@ public class Usuario {
             if(saldo>=saque) {
                 saldo -= saque;
                 histCode.add("Saque:");
-                histVal.add(saque);
+                histVal.add(-saque);
             }else {
                 System.out.println("Transação Indisponível, Saldo Insuficiente");
             }
         }
 
-    public void transSaldo(double transfer) {
+    public void transRet(double transfer, long cpf) {
         if(saldo>=transfer) {
             saldo -= transfer;
-            histCode.add("Transferência:");
-            histVal.add(transfer);
+            if(MenuBanco.ListaCPF.containsKey(cpf)) {
+                Usuario user = MenuBanco.ListaCPF.get(cpf);
+                user.transRec(transfer);
+            }
+            histCode.add("Transferência Relizada:");
+            histVal.add(-transfer);
         }else {
             System.out.println("Transação Indisponível, Saldo Insuficiente");
         }
+    }
+
+    private void transRec(double transfer) {
+        saldo += transfer;
+        histCode.add("Transferência Recebida:");
+        histVal.add(transfer);
     }
 
     public List<Integer> getConta() {
