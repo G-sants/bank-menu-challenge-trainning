@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import static java.lang.System.in;
 import static java.lang.System.out;
@@ -127,7 +129,7 @@ public class Usuario {
         if (scanner.hasNextDouble()) {
             transfer = scanner.nextDouble();
 
-            if (getSaldo() > transfer) {
+            if (getSaldo() > transfer & MenuBanco.timeValidation()) {
                 out.println("Digite o CPF que irá receber");
                 while (true) {
                     if (!scanner.hasNextLong()) {
@@ -146,8 +148,10 @@ public class Usuario {
                 transRet(transfer, menuTransfer);
                 out.println("Saldo Atualizado: " + getSaldo());
 
-            } else {
+            } else if(getSaldo()<transfer){
                 out.println("Saldo Inuficiente");
+            } else{
+                out.println("Horário não permite a Transação");
             }
 
         } else {

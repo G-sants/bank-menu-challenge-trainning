@@ -1,13 +1,9 @@
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import static java.lang.System.*;
 
 public class MenuBanco {
-    Scanner scanner = new Scanner(in);
-
-    private static boolean timeValidation(){
+    static boolean timeValidation(){
         LocalTime timeCheckUp = LocalTime.of(22,0);
         LocalTime timeCheckDown = LocalTime.of(5,0);
         LocalTime currentTime = LocalTime.now();
