@@ -1,14 +1,17 @@
 import java.util.*;
 
+import static java.lang.System.in;
+import static java.lang.System.out;
+
 public class Usuario {
     private final long cpf;
     private final List<Integer> conta;
-    private double saldo;
+    private static double saldo;
     private double limite;
     private final String nomeUser;
     private final String tipoConta;
-    private List<Double> histVal;
-    private List<String> histCode;
+    private static List<Double> histVal;
+    private static List<String> histCode;
 
     public Usuario(long cpf, String nomeUser, String tipoConta) {
         this.cpf = cpf;
@@ -20,6 +23,8 @@ public class Usuario {
         this.histVal = new ArrayList<>();
         this.histCode = new ArrayList<>();
     }
+
+    static Scanner scanner = new Scanner(in);
 
     private List<Integer> gerarConta() {
         List<Integer> lista = new ArrayList<>();
@@ -82,27 +87,80 @@ public class Usuario {
         }
     }
 
-    public void depSaldo(double deposito) {
-        saldo += deposito;
-        histCode.add("Depósito:");
-        histVal.add(deposito);
+    public void depAccount() {
+        double deposito;
+        out.println("\nDigite o Valor do Depósito");
+        if (scanner.hasNextDouble()) {
+            deposito = scanner.nextDouble();
+            saldo += deposito;
+            histCode.add("Depósito:");
+            histVal.add(deposito);
+            out.println("Saldo Atualizado: " + getSaldo());
+        } else {
+            out.println("Valor inválido. Tente novamente.");
+            scanner.next();
+        }
     }
 
-    public void saqSaldo(double saque) {
-            if(saldo>=saque) {
+    public void saqAccount () {
+        out.println("\nDigite o Valor do Saque");
+        if (scanner.hasNextDouble()) {
+            double saque = scanner.nextDouble();
+            if (getSaldo() > saque) {
                 saldo -= saque;
                 histCode.add("Saque:");
                 histVal.add(-saque);
-            }else {
-                System.out.println("Transação Indisponível, Saldo Insuficiente");
+                out.println("Saldo Atualizado: " + getSaldo());
+            } else {
+                out.println("Saldo Insuficiente");
             }
+        } else {
+            out.println("Valor inválido. Tente novamente.");
+            scanner.next();
         }
+    }
 
-    public void transRet(double transfer, long cpf) {
+    public static void transAccount() {
+        double transfer;
+        long menuTransfer;
+        out.println("\nDigite o Valor da Transferência");
+        if (scanner.hasNextDouble()) {
+            transfer = scanner.nextDouble();
+
+            if (getSaldo() > transfer) {
+                out.println("Digite o CPF que irá receber");
+                while (true) {
+                    if (!scanner.hasNextLong()) {
+                        out.println("Por Favor digite um CPF válido (apenas Números)");
+                        scanner.next();
+                        continue;
+                    }
+                    menuTransfer = scanner.nextLong();
+                    boolean t = BancoDeUsuario.cpfVAL(menuTransfer);
+
+                    if (!t) {
+                        continue;
+                    }
+                    break;
+                }
+                transRet(transfer, menuTransfer);
+                out.println("Saldo Atualizado: " + getSaldo());
+
+            } else {
+                out.println("Saldo Inuficiente");
+            }
+
+        } else {
+            out.println("Valor inválido. Tente novamente.");
+            scanner.next();
+        }
+    }
+
+    public static void transRet(double transfer, long cpf) {
         if(saldo>=transfer) {
             saldo -= transfer;
-            if(MenuBanco.ListaCPF.containsKey(cpf)) {
-                Usuario user = MenuBanco.ListaCPF.get(cpf);
+            if(BancoDeUsuario.ListaCPF.containsKey(cpf)) {
+                Usuario user = BancoDeUsuario.ListaCPF.get(cpf);
                 user.transRec(transfer);
             }
             histCode.add("Transferência Relizada:");
@@ -122,7 +180,7 @@ public class Usuario {
         return conta;
     }
 
-    public double getSaldo() {
+    public static double getSaldo() {
         return saldo;
     }
 

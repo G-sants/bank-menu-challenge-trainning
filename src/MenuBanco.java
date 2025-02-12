@@ -1,50 +1,27 @@
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import static java.lang.System.*;
 
 public class MenuBanco {
+    Scanner scanner = new Scanner(in);
 
-    static boolean cpfVAL(long n) {
-        if (n < 10000000000L || n > 99999999999L) {
-            out.println("Por favor digite um CPF válido");
+    private static boolean timeValidation(){
+        LocalTime timeCheckUp = LocalTime.of(22,0);
+        LocalTime timeCheckDown = LocalTime.of(5,0);
+        LocalTime currentTime = LocalTime.now();
+        if (currentTime.isAfter(timeCheckUp) & currentTime.isBefore(timeCheckDown)) {
             return false;
-        }else
-            return true;
+        } else return true;
     }
-
-    private static void criarConta(long cpf, String nomeUser, int menuConta) {
-        String tipo;
-        switch (menuConta) {
-            case 1:
-                tipo = "Corrente";
-                Usuario novoUser1 = new Usuario(cpf, nomeUser, tipo);
-                ListaCPF.put(cpf, novoUser1);
-                break;
-            case 2:
-                tipo = "Salário";
-                Usuario novoUser2 = new Usuario(cpf, nomeUser, tipo);
-                ListaCPF.put(cpf, novoUser2);
-                break;
-            case 3:
-                tipo = "Poupança";
-                Usuario novoUser3 = new Usuario(cpf, nomeUser, tipo);
-                ListaCPF.put(cpf, novoUser3);
-                break;
-        }
-    }
-
-    static Map<Long, Usuario> ListaCPF = new HashMap<>();
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(in);
-        String nomeUser;
         long  cpf, menuTransfer;
-        int menuInicial, menuUsuario, menuConta, menuLimite;
-        double deposito, saque, transfer;
-
-
+        int menuInicial, menuUsuario, menuLimite;
+        double deposito, transfer;
 
         while (true) {
             out.println("\nEscolha a Opção Desejada");
@@ -67,66 +44,14 @@ public class MenuBanco {
             }
             switch (menuInicial) {
                 case 1:
-                    while (true) {
-                        out.print("Digite seu CPF: ");
-
-                        if (!scanner.hasNextLong()) {
-                            out.println("Por Favor digite um CPF válido, números apenas");
-                            scanner.next();
-                            continue;
-
-                        }  else {
-                            boolean f;
-                            cpf=scanner.nextLong();
-                            f= cpfVAL(cpf);
-
-                            if (!f){
-                            continue;
-
-                            } else {
-                                scanner.nextLine();
-                                out.print("\nDigite seu Nome: ");
-                                nomeUser  = scanner.nextLine();
-
-                                if (nomeUser == null) {
-                                    out.println("Por favor Digite seu Nome Novamente");
-                                    continue;
-
-                                } else {
-                                    while (true) {
-                                        out.println("\nEscolha o Tipo de conta que deseja Criar");
-                                        out.println("1 - Corrente");
-                                        out.println("2 - Salário");
-                                        out.println("3 - Poupança");
-
-                                        if (!scanner.hasNextInt()) {
-                                            out.println("Por favor Escolha uma Opção Válida");
-                                            scanner.next();
-                                            continue;
-                                        }
-                                        menuConta = scanner.nextInt();
-
-                                        if (menuConta <1 || menuConta > 3 ) {
-                                            out.println("Por favor Escolha uma Opção Válida");
-                                            scanner.next();
-                                            continue;
-                                        }
-                                        criarConta(cpf, nomeUser, menuConta);
-                                        out.println("\nParabéns pelo Cadastro");
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    }
+                        BancoDeUsuario.newUser();
                     break;
                 case 2:
                     out.println("Digite seu CPF para Entrar");
                     cpf = scanner.nextLong();
 
-                    if (ListaCPF.containsKey(cpf)) {
-                        Usuario usuario = ListaCPF.get(cpf);
+                    if (BancoDeUsuario.ListaCPF.containsKey(cpf)) {
+                        Usuario usuario = BancoDeUsuario.ListaCPF.get(cpf);
                         out.println("Acessando conta do usuário: " + usuario.getNomeUser());
                         out.println("Nome: " + usuario.getNomeUser());
                         out.println("Conta: " + usuario.getConta());
@@ -148,7 +73,6 @@ public class MenuBanco {
                             if (!scanner.hasNextInt()) {
                                 out.println("Por favor selecione uma das Opções (Números Apenas)");
                                 scanner.next();
-                                continue;
 
                             } else { menuUsuario= scanner.nextInt();
 
@@ -159,65 +83,20 @@ public class MenuBanco {
 
                                 switch (menuUsuario) {
                                     case 1:
-                                        out.println("\nDigite o Valor do Depósito");
-                                        if (scanner.hasNextDouble()) {
-                                            deposito = scanner.nextDouble();
-                                            usuario.depSaldo(deposito);
-                                            out.println("Saldo Atualizado: " + usuario.getSaldo());
-                                        } else {
-                                            out.println("Valor inválido. Tente novamente.");
-                                            scanner.next();
-                                        }
+                                        usuario.depAccount();
                                         break;
 
                                     case 2:
-                                        out.println("\nDigite o Valor do Saque");
-                                        if (scanner.hasNextDouble()) {
-                                            saque = scanner.nextDouble();
-                                            if (usuario.getSaldo() > saque) {
-                                                usuario.saqSaldo(saque);
-                                                out.println("Saldo Atualizado: " + usuario.getSaldo());
-                                            } else {
-                                                out.println("Saldo Inuficiente");
-                                            }
-                                        } else {
-                                            out.println("Valor inválido. Tente novamente.");
-                                            scanner.next();
-                                        }
-                                        break;
+                                        boolean testTime = timeValidation();
+                                        if(testTime) {
+                                            usuario.saqAccount();
+                                            break;
+                                        }else {
+                                            out.println("Sua Transação não é permitida pelo horário");
+                                        }continue;
 
                                     case 3:
-                                        out.println("\nDigite o Valor da Transferência");
-                                        if (scanner.hasNextDouble()) {
-                                            transfer = scanner.nextDouble();
-
-                                            if (usuario.getSaldo() > transfer) {
-                                                out.println("Digite o CPF que irá receber");
-                                                while(true) {
-                                                    if (!scanner.hasNextLong()) {
-                                                        out.println("Por Favor digite um CPF válido (apenas Números)");
-                                                        scanner.next();
-                                                        continue;
-                                                    }
-                                                    menuTransfer = scanner.nextLong();
-                                                    boolean t =cpfVAL(menuTransfer);
-
-                                                    if (!t) {
-                                                        continue;
-                                                    }
-                                                    break;
-                                                }
-                                                usuario.transRet(transfer, menuTransfer);
-                                                out.println("Saldo Atualizado: " + usuario.getSaldo());
-
-                                            } else {
-                                                out.println("Saldo Inuficiente");
-                                            }
-
-                                        } else {
-                                            out.println("Valor inválido. Tente novamente.");
-                                            scanner.next();
-                                        }
+                                        Usuario.transAccount();
                                         break;
                                     case 4:
                                         out.println("\n Escolha o que Deseja Fazer");

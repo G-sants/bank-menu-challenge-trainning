@@ -70,4 +70,4 @@ flowchart TB
     View/Export_History --> nL(view) --> |Shows Up| Transaction_History
     View/Export_History --> eH(Export) --> |Creat .CSV File| Download
 
-    Exit_Menu -->|Close Users Menu|Bank_Menu;
+    Exit_Menu -->|Close Users Menu|Return_Bank_Menu;
