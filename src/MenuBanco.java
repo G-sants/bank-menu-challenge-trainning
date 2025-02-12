@@ -19,9 +19,9 @@ public class MenuBanco {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(in);
-        long  cpf, menuTransfer;
+        long  cpf;
         int menuInicial, menuUsuario, menuLimite;
-        double deposito, transfer;
+
 
         while (true) {
             out.println("\nEscolha a Opção Desejada");
@@ -98,6 +98,7 @@ public class MenuBanco {
                                     case 3:
                                         Usuario.transAccount();
                                         break;
+
                                     case 4:
                                         out.println("\n Escolha o que Deseja Fazer");
 
