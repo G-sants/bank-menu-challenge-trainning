@@ -9,6 +9,14 @@ public class BancoDeUsuario {
     static Scanner scanner = new Scanner(in);
     static Map<Long, Usuario> ListaCPF = new HashMap<>();
 
+    public static void accData(Usuario usuario) {
+        out.println("Acessando dados da conta do usuário: " + usuario.getNomeUser());
+        out.println("Nome: " + usuario.getNomeUser());
+        out.println("Conta: " + usuario.getConta());
+        out.println("limite Disponível: " + usuario.getLimite());
+        out.println("Saldo: " + usuario.getSaldo());
+        out.println("Conta do Tipo: " + usuario.getTipoConta());
+    }
     static boolean cpfVAL(long n) {
         if (n < 10000000000L || n > 99999999999L) {
             out.println("Por favor digite um CPF válido");

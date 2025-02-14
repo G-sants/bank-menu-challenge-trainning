@@ -7,12 +7,12 @@ import static java.lang.System.out;
 public class Usuario {
     private final long cpf;
     private final List<Integer> conta;
-    private static double saldo;
+    private  double saldo;
     private double limite;
     private final String nomeUser;
     private final String tipoConta;
-    private static List<Double> histVal;
-    private static List<String> histCode;
+    List<Double> histVal;
+    List<String> histCode;
 
     public Usuario(long cpf, String nomeUser, String tipoConta) {
         this.cpf = cpf;
@@ -62,7 +62,7 @@ public class Usuario {
             if (ver<=500) {menu=1;}
             if (ver<=1000 && ver> 500) {menu=2;}
             if (ver<=1500 && ver>1000) {menu=3;}
-            if (ver<1500) {menu=4;}
+            if (ver>1500) {menu=4;}
 
             switch(menu) {
                 case 1:
@@ -107,13 +107,16 @@ public class Usuario {
         out.println("\nDigite o Valor do Saque");
         if (scanner.hasNextDouble()) {
             double saque = scanner.nextDouble();
-            if (getSaldo() > saque) {
+            if(getSaldo() > saque & MenuBanco.timeValidation())  {
                 saldo -= saque;
                 histCode.add("Saque:");
                 histVal.add(-saque);
                 out.println("Saldo Atualizado: " + getSaldo());
-            } else {
-                out.println("Saldo Insuficiente");
+
+            } else if(getSaldo()<saque){
+                out.println("Saldo Inuficiente");
+            }else {
+                out.println("Horário não permite a Transação");
             }
         } else {
             out.println("Valor inválido. Tente novamente.");
@@ -121,7 +124,7 @@ public class Usuario {
         }
     }
 
-    public static void transAccount() {
+    public void transAccount() {
         double transfer;
         long menuTransfer;
         out.println("\nDigite o Valor da Transferência");
@@ -159,31 +162,27 @@ public class Usuario {
         }
     }
 
-    public static void transRet(double transfer, long cpf) {
-        if(saldo>=transfer) {
-            saldo -= transfer;
-            if(BancoDeUsuario.ListaCPF.containsKey(cpf)) {
-                Usuario user = BancoDeUsuario.ListaCPF.get(cpf);
-                user.transRec(transfer);
-            }
-            histCode.add("Transferência Relizada:");
-            histVal.add(-transfer);
-        }else {
-            System.out.println("Transação Indisponível, Saldo Insuficiente");
+    public void transRet(double transfer, long cpf) {
+        saldo -= transfer;
+        if(BancoDeUsuario.ListaCPF.containsKey(cpf)) {
+            Usuario user = BancoDeUsuario.ListaCPF.get(cpf);
+            user.transRec(transfer);
         }
+        histCode.add("Transferência Relizada:");
+        histVal.add(-transfer);
     }
 
     private void transRec(double transfer) {
-        saldo += transfer;
-        histCode.add("Transferência Recebida:");
-        histVal.add(transfer);
+            saldo += transfer;
+            histCode.add("Transferência Recebida:");
+            histVal.add(transfer);
     }
 
     public List<Integer> getConta() {
         return conta;
     }
 
-    public static double getSaldo() {
+    public double getSaldo() {
         return saldo;
     }
 

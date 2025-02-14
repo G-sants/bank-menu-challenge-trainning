@@ -1,3 +1,10 @@
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.channels.ScatteringByteChannel;
 import java.time.LocalTime;
 import java.util.Scanner;
 import static java.lang.System.*;
@@ -48,21 +55,17 @@ public class MenuBanco {
 
                     if (BancoDeUsuario.ListaCPF.containsKey(cpf)) {
                         Usuario usuario = BancoDeUsuario.ListaCPF.get(cpf);
-                        out.println("Acessando conta do usuário: " + usuario.getNomeUser());
-                        out.println("Nome: " + usuario.getNomeUser());
-                        out.println("Conta: " + usuario.getConta());
-                        out.println("limite Disponível: " + usuario.getLimite());
-                        out.println("Saldo: " + usuario.getSaldo());
-                        out.println("Conta do Tipo: " + usuario.getTipoConta());
+                        BancoDeUsuario.accData(usuario);
 
                         while (true) {
                             out.println("\nEscolha o que Deseja Fazer");
-                            out.println("1 - Depósito");
-                            out.println("2 - Saque");
-                            out.println("3 - Transferência");
-                            out.println("4 - Verificar/Alterar Limite");
-                            out.println("5 - Verificar Histório de Transações");
-                            out.println("6 - Sair");
+                            out.println("1 - Verificar Dados");
+                            out.println("2 - Depósito");
+                            out.println("3 - Saque");
+                            out.println("4 - Transferência");
+                            out.println("5 - Verificar/Alterar Limite");
+                            out.println("6 - Verificar Histório de Transações");
+                            out.println("7 - Sair");
 
                             out.println("\nDigite a Opção");
 
@@ -72,17 +75,21 @@ public class MenuBanco {
 
                             } else { menuUsuario= scanner.nextInt();
 
-                                if (menuUsuario == 6) {
+                                if (menuUsuario == 7) {
                                     out.println("Saindo...");
                                     break;
                                 }
 
                                 switch (menuUsuario) {
                                     case 1:
+                                        BancoDeUsuario.accData(usuario);
+                                    break;
+
+                                    case 2:
                                         usuario.depAccount();
                                         break;
 
-                                    case 2:
+                                    case 3:
                                         boolean testTime = timeValidation();
                                         if(testTime) {
                                             usuario.saqAccount();
@@ -91,11 +98,11 @@ public class MenuBanco {
                                             out.println("Sua Transação não é permitida pelo horário");
                                         }continue;
 
-                                    case 3:
-                                        Usuario.transAccount();
+                                    case 4:
+                                        usuario.transAccount();
                                         break;
 
-                                    case 4:
+                                    case 5:
                                         out.println("\n Escolha o que Deseja Fazer");
 
                                         while (true) {
@@ -119,7 +126,7 @@ public class MenuBanco {
                                             break;
                                         }
                                         break;
-                                    case 5:
+                                    case 6:
                                         out.println("\n Escolha o que Deseja Fazer");
 
                                         while (true) {
@@ -140,8 +147,20 @@ public class MenuBanco {
                                                     usuario.getHist();
                                                     break;
                                                 case 2:
+                                                    String path = "C:\\Microsoft\\hist.csv";
+                                                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+                                                        writer.write("Movimentações, Valores(R$)");
+                                                        writer.newLine();
+                                                        int size = usuario.histVal.size();
 
-                                                    //FAZER COMANDO DE EXPORTAR MAPA EM CSV
+                                                        for (int i=0;i<size;i++) {
+                                                            writer.write(usuario.histCode.get(i)+","+usuario.histVal.get(i));
+                                                            writer.newLine();
+                                                        }
+                                                        out.println("Dados enviados ao Usuário");
+                                                    }catch (IOException e) {
+                                                            e.printStackTrace();
+                                                    }
                                                     break;
                                             }
                                             break;
