@@ -1,7 +1,7 @@
 # bank-menu-challeng-trainning
  Just a model of a Bank App menu for interaction and transactions
 
-#######################################################################################################################################################
+############################################################################################################################
 
 How to Use it:
 
@@ -40,8 +40,88 @@ if don't, them just select to enter the applicantion.
    Shows every transaction made since the account was created or create an .CSV file with all of it.
    
   6 - Exit the User Menu;
-
-  #################################################################################################################################################
+  ############################################################################################################################
 
 OBSERVATIONS
  The code does not preserve anything, so once closed it will delete every information created.
+
+############################################################################################################################
+
+DIAGRAM 
+
+```mermaid
+flowchart TB
+
+    subgraph Bank Menu
+        LogIn
+        SignUp
+        Exit
+    end
+    subgraph Bank Info
+        User_List
+        ID_Validation
+    end
+    subgraph LoggedIn Menu
+        Deposit
+        Cash_Out
+        Transfer
+        View/Change_Limit
+        View/Export_History
+        Exit_Menu
+    end
+    subgraph User Info
+        ID
+        Name
+        Account
+        Account_Type
+    end
+
+    subgraph User
+        Balance
+        Limit
+        Transaction_History
+        c
+    end
+
+    LogIn -.-> |Type ID| User_List
+    User_List -.-> Loggin_In
+
+    Exit --> |Close Application| End
+
+    SignUp -->|Type ID| ID_Validation
+    ID_Validation --> |Type Name| User_List
+
+    Loggin_In --> Info(Display User Informations)
+
+
+    Info --> Name
+    Info --> ID
+    Info --> Account
+    Info --> Account_Type
+
+    Account --> om(User Menu)
+    Name --> om(User Menu)
+    ID --> om(User Menu)
+    Account_Type --> om(User Menu)
+
+    om -->Deposit
+    om -->Cash_Out
+    om -->Transfer
+    om --> View/Change_Limit
+    om --> View/Export_History
+    om --> Exit_Menu
+
+    Deposit --> |Adds Amount to Balance| Balance
+    Cash_Out --> |Subtracts Amount to Balance| Balance
+    Transfer --> |Subtracts Amount to Balance| Balance
+
+    View/Change_Limit --o vL(view)-->|Shows up| Limit
+    View/Change_Limit-.-o cL(change)-.->|search history| Transaction_History
+    Transaction_History -.-> |Looks for amount of money moved|c
+    c{change} -.->|Update and Shows Up| Limit
+
+    View/Export_History --> nL(view) --> |Shows Up| Transaction_History
+    View/Export_History --> eH(Export) --> |Creat .CSV File| Download
+
+    Exit_Menu -->|Close Users Menu|Return_Bank_Menu;
+```
