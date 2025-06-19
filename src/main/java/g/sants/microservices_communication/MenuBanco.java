@@ -1,23 +1,19 @@
-import org.junit.Assert;
-import org.junit.Test;
+package g.sants.microservices_communication;
+
+import g.sants.microservices_communication.domain.Account;
+import g.sants.microservices_communication.domain.User;
+import main.java.BancoDeUsuario;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.channels.ScatteringByteChannel;
-import java.time.LocalTime;
 import java.util.Scanner;
+
 import static java.lang.System.*;
 
+@SpringBootApplication
 public class MenuBanco {
-    static boolean timeValidation(){
-        LocalTime timeCheckUp = LocalTime.of(22,0);
-        LocalTime timeCheckDown = LocalTime.of(5,0);
-        LocalTime currentTime = LocalTime.now();
-        if (currentTime.isAfter(timeCheckUp) & currentTime.isBefore(timeCheckDown)) {
-            return false;
-        } else return true;
-    }
 
     public static void main(String[] args) {
 
@@ -54,8 +50,8 @@ public class MenuBanco {
                     cpf = scanner.nextLong();
 
                     if (BancoDeUsuario.ListaCPF.containsKey(cpf)) {
-                        Usuario usuario = BancoDeUsuario.ListaCPF.get(cpf);
-                        BancoDeUsuario.accData(usuario);
+                        User user = BancoDeUsuario.ListaCPF.get(cpf);
+                        BancoDeUsuario.accData(user);
 
                         while (true) {
                             out.println("\nEscolha o que Deseja Fazer");
@@ -82,24 +78,24 @@ public class MenuBanco {
 
                                 switch (menuUsuario) {
                                     case 1:
-                                        BancoDeUsuario.accData(usuario);
+                                        BancoDeUsuario.accData(user);
                                     break;
 
                                     case 2:
-                                        usuario.depAccount();
+                                        Account.depAccount();
                                         break;
 
                                     case 3:
                                         boolean testTime = timeValidation();
                                         if(testTime) {
-                                            usuario.saqAccount();
+                                            Account.saqAccount();
                                             break;
                                         }else {
                                             out.println("Sua Transação não é permitida pelo horário");
                                         }continue;
 
                                     case 4:
-                                        usuario.transAccount();
+                                        Account.transAccount();
                                         break;
 
                                     case 5:
@@ -118,10 +114,10 @@ public class MenuBanco {
                                             }
                                             switch (menuLimite) {
                                                 case 1:
-                                                    out.println("Seu Limite Atual:" + usuario.getLimite());
+                                                    out.println("Seu Limite Atual:" + Account.getLimit());
                                                     break;
                                                 case 2:
-                                                    usuario.valLimite();
+                                                    Account.limitValidation();
                                             }
                                             break;
                                         }
@@ -144,17 +140,17 @@ public class MenuBanco {
                                             switch (menuLimite) {
                                                 case 1:
                                                     out.println("\nGerando dados...");
-                                                    usuario.getHist();
+                                                    Account.getHist();
                                                     break;
                                                 case 2:
                                                     String path = "C:\\Microsoft\\hist.csv";
                                                     try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
                                                         writer.write("Movimentações, Valores(R$)");
                                                         writer.newLine();
-                                                        int size = usuario.histVal.size();
+                                                        int size = Account.histVal.size();
 
                                                         for (int i=0;i<size;i++) {
-                                                            writer.write(usuario.histCode.get(i)+","+usuario.histVal.get(i));
+                                                            writer.write(Account.histCode.get(i)+","+ Account.histVal.get(i));
                                                             writer.newLine();
                                                         }
                                                         out.println("Dados enviados ao Usuário");

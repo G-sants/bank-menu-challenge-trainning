@@ -1,4 +1,4 @@
-# bank-menu-challeng-trainning
+# bank-menu-challenge-training
  Just a model of a Bank App menu for interaction and transactions
 
 ############################################################################################################################
@@ -12,17 +12,17 @@ Choose one of the options in between:
  -exiting the app;
  
 Second:
- If you choose to create it, than just put a Personal ID (it got to be 11 numbers);
+ If you choose to create it, then just put a Personal ID (it got to be 11 numbers);
  Than type your Name
- and than select the type of account you want to create:
+ and then select the type of account you want to create:
   -Checking;
   -Salary;
   -Saving;
 
  Third:
-  Now you will be back to the main menu, if you want to create a new account (recommende if you want to make transferences in beetween them)
-if don't, them just select to enter the applicantion.
- In here you can choose differents option:
+  Now you will be back to the main menu, if you want to create a new account (recommend if you want to make transference's in between them)
+if you don't, them just select to enter the application.
+ In here you can choose different option:
   1- Make a deposit to it;
    Can be made with any value.
    
@@ -84,14 +84,14 @@ flowchart TB
     end
 
     LogIn -.-> |Type ID| User_List
-    User_List -.-> Loggin_In
+    User_List -.-> Logging_In
 
     Exit --> |Close Application| End
 
     SignUp -->|Type ID| ID_Validation
     ID_Validation --> |Type Name| User_List
 
-    Loggin_In --> Info(Display User Informations)
+    Logging_In --> Info(Display User Informations)
 
 
     Info --> Name

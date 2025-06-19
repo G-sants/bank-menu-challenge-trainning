@@ -1,3 +1,7 @@
+package main.java;
+
+import g.sants.microservices_communication.domain.User;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -7,17 +11,17 @@ import static java.lang.System.out;
 
 public class BancoDeUsuario {
     static Scanner scanner = new Scanner(in);
-    static Map<Long, Usuario> ListaCPF = new HashMap<>();
+    public static Map<Long, User> ListaCPF = new HashMap<>();
 
-    public static void accData(Usuario usuario) {
-        out.println("Acessando dados da conta do usuário: " + usuario.getNomeUser());
-        out.println("Nome: " + usuario.getNomeUser());
-        out.println("Conta: " + usuario.getConta());
-        out.println("limite Disponível: " + usuario.getLimite());
-        out.println("Saldo: " + usuario.getSaldo());
-        out.println("Conta do Tipo: " + usuario.getTipoConta());
+    public static void accData(User user) {
+        out.println("Acessando dados da conta do usuário: " + user.getNomeUser());
+        out.println("Nome: " + user.getNomeUser());
+        out.println("Conta: " + user.getConta());
+        out.println("limite Disponível: " + user.getLimite());
+        out.println("Saldo: " + user.getSaldo());
+        out.println("Conta do Tipo: " + user.getTipoConta());
     }
-    static boolean cpfVAL(long n) {
+    public static boolean cpfVAL(long n) {
         if (n < 10000000000L || n > 99999999999L) {
             out.println("Por favor digite um CPF válido");
             return false;
@@ -30,17 +34,17 @@ public class BancoDeUsuario {
         switch (menuConta) {
             case 1:
                 tipo = "Corrente";
-                Usuario novoUser1 = new Usuario(cpf, nomeUser, tipo);
+                User novoUser1 = new User(cpf, nomeUser, tipo, email);
                 ListaCPF.put(cpf, novoUser1);
                 break;
             case 2:
                 tipo = "Salário";
-                Usuario novoUser2 = new Usuario(cpf, nomeUser, tipo);
+                User novoUser2 = new User(cpf, nomeUser, tipo, email);
                 ListaCPF.put(cpf, novoUser2);
                 break;
             case 3:
                 tipo = "Poupança";
-                Usuario novoUser3 = new Usuario(cpf, nomeUser, tipo);
+                User novoUser3 = new User(cpf, nomeUser, tipo, email);
                 ListaCPF.put(cpf, novoUser3);
                 break;
         }
