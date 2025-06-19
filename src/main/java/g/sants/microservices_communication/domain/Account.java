@@ -1,5 +1,6 @@
 package g.sants.microservices_communication.domain;
 
+import g.sants.microservices_communication.Menu;
 import jakarta.persistence.Entity;
 
 import java.time.LocalTime;
@@ -154,7 +155,7 @@ public class Account {
                         continue;
                     }
                     menuTransfer = scanner.nextLong();
-                    boolean t = main.java.BancoDeUsuario.cpfVAL(menuTransfer);
+                    boolean t = Menu.cpfVAL(menuTransfer);
 
                     if (!t) {
                         continue;
@@ -178,8 +179,8 @@ public class Account {
 
     public void transRet(double transfer, long cpf) {
         balance -= transfer;
-        if (main.java.BancoDeUsuario.ListaCPF.containsKey(cpf)) {
-            User user = main.java.BancoDeUsuario.ListaCPF.get(cpf);
+        if (Menu.ListaCPF.containsKey(cpf)) {
+            User user = Menu.ListaCPF.get(cpf);
             transRec(transfer);
         }
         histCode.add("Transferência Relizada:");

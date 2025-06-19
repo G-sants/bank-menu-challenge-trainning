@@ -9,5 +9,11 @@ public class CreditCard {
     private String lastName;
     private long customerID;
     private long cardID;
-    private long 
+
+    public CreditCard(String name, String lastName, long customerID, long cardID) {
+        this.name = name;
+        this.lastName = lastName;
+        this.customerID = customerID;
+        this.cardID = cardID;
+    }
 }
