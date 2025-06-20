@@ -32,6 +32,9 @@ public class Menus {
         if (selected == 2) {
             userMenu();
         }
+        if (selected == 3) {}
+        if (selected == 4) {}
+        if (selected == 5) {}
         if (selected == 6) {
             exitingMenu();
         }
