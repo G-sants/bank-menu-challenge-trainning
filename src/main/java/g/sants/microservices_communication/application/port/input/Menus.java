@@ -2,12 +2,14 @@ package g.sants.microservices_communication.application.port.input;
 
 import g.sants.microservices_communication.domain.Account;
 import g.sants.microservices_communication.domain.User;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
 import static java.lang.System.in;
 import static java.lang.System.out;
 
+@Component
 public class Menus {
 
     private User user = new User();
@@ -121,6 +123,7 @@ public class Menus {
         new User(customerID, name, lastName, email, accType);
 
         out.println("\nCongratulations");
+        startMenu();
     }
 
     private String collectUserName() {

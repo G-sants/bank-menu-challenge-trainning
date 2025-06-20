@@ -1,12 +1,12 @@
 package g.sants.microservices_communication.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 import static java.lang.System.in;
 import static java.lang.System.out;
@@ -17,6 +17,9 @@ public class Account {
     private User user = new User();
     private final Scanner scanner = new Scanner(in);
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID) // Use AUTO or SEQUENCE based on your DB
+    private UUID uuid;
     private  List<Integer> acc;
     private double balance;
     private double limit;
@@ -251,5 +254,13 @@ public class Account {
 
     public void setAccType(String accType) {
         this.accType = accType;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }

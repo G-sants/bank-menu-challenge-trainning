@@ -1,9 +1,18 @@
 package g.sants.microservices_communication.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+import java.util.UUID;
 
 @Entity
 public class CreditCard {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID) // Use AUTO or SEQUENCE based on your DB
+    private UUID uuid;
 
     private String name;
     private String lastName;
@@ -47,5 +56,13 @@ public class CreditCard {
 
     public void setCardID(long cardID) {
         this.cardID = cardID;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }
