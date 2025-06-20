@@ -25,12 +25,12 @@ public class Menus {
 
     private void menuSelectorUser(int selected) {
         if (selected == 1) {
-            verifyUserData();
+            accData();
         }
         if (selected == 2) {
             userMenu();
         }
-        if (selected == 3) {
+        if (selected == 6) {
             exitingMenu();
         }
     }
@@ -68,32 +68,25 @@ public class Menus {
     private void userMenu() {
         out.println("Type in your ID");
         long customerID = scanner.nextLong();
+        while (true) {
+            out.println("1 - Verify User Data");
+            out.println("2 - Deposit");
+            out.println("3 - Transfer");
+            out.println("4 - Verify/Change Limit");
+            out.println("5 - Verify Transaction History");
+            out.println("6 - Exit");
+            out.println("\nPlease Type one of the Options");
 
-        if (Menus.ListaCPF.containsKey()) {
-            User user = Menus.ListaCPF.get(cpf);
-            accData();
-            while (true) {
-                out.println("1 - Verificar Dados");
-                out.println("2 - Depósito");
-                out.println("3 - Saque");
-                out.println("4 - Transferência");
-                out.println("5 - Verificar/Alterar Limite");
-                out.println("6 - Verificar Histório de Transações");
-                out.println("7 - Sair");
-                out.println("\nPlease Type one of the Options");
-
-                if (!scanner.hasNextInt()) {
-                    out.println("Please select one of the Options (Numbers Only)");
-                    scanner.next();
-                    continue;
-                }
-                int selection = scanner.nextInt();
-                menuSelectorBank(selection);
+            if (!scanner.hasNextInt()) {
+                out.println("Please select one of the Options (Numbers Only)");
+                scanner.next();
+                continue;
             }
-        }
-    }
 
-    private void verifyUserData() {
+            int selection = scanner.nextInt();
+            menuSelectorUser(selection);
+            break;
+        }
     }
 
     private void exitingMenu() {
