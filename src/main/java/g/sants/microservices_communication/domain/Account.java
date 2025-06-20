@@ -1,6 +1,5 @@
 package g.sants.microservices_communication.domain;
 
-import g.sants.microservices_communication.Menu;
 import jakarta.persistence.Entity;
 
 import java.time.LocalTime;
@@ -15,14 +14,15 @@ import static java.lang.System.out;
 @Entity
 public class Account {
 
-    private static final Scanner scanner = new Scanner(in);
+    private User user = new User();
+    private final Scanner scanner = new Scanner(in);
 
     private  List<Integer> acc;
     private double balance;
     private double limit;
     private String accType;
-    private final List<Double> histVal;
-    private final List<String> histCode;
+    private List<Double> histVal;
+    private List<String> histCode;
 
     public Account(List<Integer> acc, double balance, double limit,
                    String accType, List<Double> histVal, List<String> histCode) {
@@ -33,6 +33,7 @@ public class Account {
         this.histVal = histVal;
         this.histCode = histCode;
     }
+    public Account(){}
 
     private List<Integer> accGenerate() {
         List<Integer> acc = new ArrayList<>();
@@ -155,7 +156,7 @@ public class Account {
                         continue;
                     }
                     menuTransfer = scanner.nextLong();
-                    boolean t = Menu.cpfVAL(menuTransfer);
+                    boolean t = user.idValidation(menuTransfer);
 
                     if (!t) {
                         continue;
@@ -179,10 +180,12 @@ public class Account {
 
     public void transRet(double transfer, long cpf) {
         balance -= transfer;
+        /*VALIDAR TRANSFERENCIA
         if (Menu.ListaCPF.containsKey(cpf)) {
-            User user = Menu.ListaCPF.get(cpf);
+            User newuser = Menu.ListaCPF.get(cpf);
             transRec(transfer);
-        }
+        }*/
+
         histCode.add("Transferência Relizada:");
         histVal.add(-transfer);
     }
@@ -209,6 +212,13 @@ public class Account {
         LocalTime timeCheckDown = LocalTime.of(5,0);
         LocalTime currentTime = LocalTime.now();
         return !(currentTime.isAfter(timeCheckUp) & currentTime.isBefore(timeCheckDown));
+    }
+
+    public void accAccData() {
+        Account account = new Account();
+        out.println("Your Balance is " + account.getBalance());
+        out.println("Your Limit is " + account.getLimit());
+        out.println("Your Account is " + account.getAccType());
     }
 
     public List<Integer> getAcc() {

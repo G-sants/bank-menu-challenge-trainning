@@ -1,5 +1,6 @@
 package g.sants.microservices_communication;
 
+import g.sants.microservices_communication.application.port.input.Menus;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication

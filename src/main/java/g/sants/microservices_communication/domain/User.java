@@ -20,15 +20,18 @@ public class User {
     private String lastName;
     @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
+    private String accType;
 
-    public User(Long customerID){
+    public User(){
     }
 
-    public User(long customerID, String name, String lastName, String email) {
+    public User(long customerID, String name, String lastName, String email, String accType) {
         this.customerID = customerID;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
+        this.accType = accType;
     }
 
     public boolean idValidation(long n) {
@@ -37,6 +40,11 @@ public class User {
             return false;
         }else
             return true;
+    }
+
+    public void accUserData() {
+        out.println("Acessando dados da conta do usuário: ");
+        out.println("Nome: " + getName() + getLastName());
     }
 
     public Long getId() {
@@ -77,5 +85,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAccType() {
+        return accType;
+    }
+
+    public void setAccType(String accType) {
+        this.accType = accType;
     }
 }
