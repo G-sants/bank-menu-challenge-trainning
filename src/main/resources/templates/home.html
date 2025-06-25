@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome to AppBank</title>
+
+    <style>
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid green;
+            background-color: #f0fff0;
+        }
+    </style>
+</head>
+<body>
+<h1>Welcome to the AppBank</h1>
+
+<div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
+
+<ul>
+    <li><a th:href="@{/create-account}">Create new Account</a></li>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/exit">Exit</a></li>
+</ul>
+</body>
+</html>
