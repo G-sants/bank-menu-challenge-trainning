@@ -1,4 +1,4 @@
-package g.sants.microservices_communication.adapter;
+package g.sants.microservices_communication.adapter.config;
 
 import g.sants.microservices_communication.domain.Account;
 import g.sants.microservices_communication.domain.User;

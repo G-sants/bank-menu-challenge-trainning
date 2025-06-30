@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Create New Account</h1>
-<form th:action="@{/create-account}" method="post">
+<form th:action="@{/auth/create-account}" method="post">
     <div>
         <label>CustomerID:</label>
         <input type="number" name="customerID" required />
@@ -23,6 +23,10 @@
         <input type="email" name="email" required />
     </div>
     <div>
+        <label>Password:</label>
+        <input type="password" name="password" required />
+    </div>
+    <div>
         <label>Account Type:</label>
         <select name="accType" required>
             <option value="" disabled selected>Select account type</option>
@@ -36,3 +40,4 @@
 <a th:href="@{/}">Back to Menu</a>
 </body>
 </html>
+   

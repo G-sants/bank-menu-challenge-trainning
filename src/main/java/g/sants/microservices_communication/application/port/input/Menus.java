@@ -123,7 +123,8 @@ public class Menus {
         String lastName = collectUserLastName();
         String accType = collectAccType();
         String email = collectUserEmail();
-        new User(customerID, name, lastName, email, accType);
+        String password = user.getPassword();
+        new User(customerID, password, name, lastName, email, accType);
 
         out.println("\nCongratulations");
         startMenu();

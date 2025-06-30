@@ -15,9 +15,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void createNewAccount(Long customerID, String name, String lastName,
+    public void createNewAccount(Long customerID, String password, String name, String lastName,
                                  String email, String accType) {
-        User user = new User(customerID, name, lastName, email, accType);
+        User user = new User(customerID,password ,name, lastName, email, accType);
         userRepository.save(user);
     }
 }

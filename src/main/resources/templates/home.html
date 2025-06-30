@@ -18,11 +18,11 @@
 <h1>Welcome to the AppBank</h1>
 
 <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
+<div th:if="${errorMessage}" class="error-message" style="color: red;" th:text="${errorMessage}"></div>
 
 <ul>
     <li><a th:href="@{/create-account}">Create new Account</a></li>
     <li><a href="/login">Login</a></li>
-    <li><a href="/exit">Exit</a></li>
 </ul>
 </body>
 </html>
