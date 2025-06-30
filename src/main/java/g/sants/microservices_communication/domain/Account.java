@@ -18,7 +18,7 @@ public class Account {
     private UUID uuid;
     private  List<Integer> acc;
     private double balance;
-    private double limit;
+    private double accountLimit;
     private String accType;
     private List<Double> histVal;
     private List<String> histCode;
@@ -27,7 +27,7 @@ public class Account {
                    String accType, List<Double> histVal, List<String> histCode) {
         this.acc = accGenerate();
         this.balance = balance;
-        this.limit = limit;
+        this.accountLimit = limit;
         this.accType = accType;
         this.histVal = histVal;
         this.histCode = histCode;
@@ -63,7 +63,7 @@ public class Account {
 
 
     public void limitChange(double ver) {
-        ver -= limit;
+        ver -= accountLimit;
         int menu = 0;
         if (ver > 0) {
             if (ver <= 500) {
@@ -82,20 +82,20 @@ public class Account {
             switch (menu) {
                 case 1:
                     double lim = 500;
-                    limit += 500;
-                    System.out.println("Seu limit foi alterado para: " + limit);
+                    accountLimit += 500;
+                    System.out.println("Seu limit foi alterado para: " + accountLimit);
                     break;
                 case 2:
-                    limit += 1000;
-                    System.out.println("Seu limit foi alterado para: " + limit);
+                    accountLimit += 1000;
+                    System.out.println("Seu limit foi alterado para: " + accountLimit);
                     break;
                 case 3:
-                    limit += 1500;
-                    System.out.println("Seu limit foi alterado para: " + limit);
+                    accountLimit += 1500;
+                    System.out.println("Seu limit foi alterado para: " + accountLimit);
                     break;
                 case 4:
-                    limit += 2000;
-                    System.out.println("Seu limit foi alterado para: " + limit);
+                    accountLimit += 2000;
+                    System.out.println("Seu limit foi alterado para: " + accountLimit);
                     break;
             }
         } else {
@@ -156,7 +156,7 @@ public class Account {
     public void accAccData() {
         Account account = new Account();
         out.println("Your Balance is " + account.getBalance());
-        out.println("Your Limit is " + account.getLimit());
+        out.println("Your Limit is " + account.getAccountLimit());
         out.println("Your Account is " + account.getAccType());
     }
 
@@ -176,12 +176,12 @@ public class Account {
         this.balance = balance;
     }
 
-    public double getLimit() {
-        return limit;
+    public double getAccountLimit() {
+        return accountLimit;
     }
 
-    public void setLimit(double limit) {
-        this.limit = limit;
+    public void setAccountLimit(double accountLimit) {
+        this.accountLimit = accountLimit;
     }
 
     public String getAccType() {

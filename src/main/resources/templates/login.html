@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Login</title>
 </head>
@@ -8,11 +8,15 @@
 <form th:action="@{/auth/login}" method="post">
     <div>
         <label>Email:</label>
-        <input type="email" name="email" required />
+        <label>
+            <input type="email" name="email" required />
+        </label>
     </div>
     <div>
         <label>Password:</label>
-        <input type="password" name="password" required />
+        <label>
+            <input type="password" name="rawPassword" required />
+        </label>
     </div>
     <button type="submit">Login</button>
 </form>

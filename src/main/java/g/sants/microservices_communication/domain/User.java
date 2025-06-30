@@ -29,6 +29,7 @@ public class User implements UserDetails {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String accType;
 
     public User (Long customerID, String password, String name, String lastName,
