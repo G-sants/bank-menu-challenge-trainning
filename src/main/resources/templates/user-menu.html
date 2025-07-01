@@ -16,55 +16,5 @@
     </li>
 </ul>
 
-<script>
-    function accessData() {
-        const token = sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
-        if (!token) {
-            window.location.href = '/login';
-            return;
-        }
-
-        fetch('/api/data', {
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '/data-page';
-            } else {
-                throw new Error('Unauthorized');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            window.location.href = '/login';
-        });
-    }
-
-    function exit() {
-        sessionStorage.removeItem('authToken');
-        localStorage.removeItem('authToken');
-
-        fetch('/auth/logout', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '/login';
-            } else {
-                throw new Error('Logout failed');
-            }
-        })
-        .catch(error => {
-            console.error(error);
-            window.location.href = '/login';
-        });
-    }
-</script>
 </body>
 </html>

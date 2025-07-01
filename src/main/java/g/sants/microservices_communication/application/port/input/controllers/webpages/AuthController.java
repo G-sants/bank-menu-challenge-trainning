@@ -1,17 +1,14 @@
 package g.sants.microservices_communication.application.port.input.controllers.webpages;
 
+import g.sants.microservices_communication.application.dto.LoginDTORequest;
 import g.sants.microservices_communication.application.dto.RegisterDTORequest;
-import g.sants.microservices_communication.application.services.auth.AuthorizationService;
-import g.sants.microservices_communication.application.services.auth.TokenService;
-import g.sants.microservices_communication.domain.User;
-import jakarta.servlet.http.HttpSession;
+import g.sants.microservices_communication.application.port.output.UserRepository;
+import g.sants.microservices_communication.application.services.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -19,17 +16,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final AuthorizationService authorizationService;
-    private final TokenService tokenService;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public AuthController(AuthorizationService authorizationService,
-                          AuthenticationManager authenticationManager,
-                          TokenService tokenService){
-        this.authorizationService = authorizationService;
-        this.authenticationManager= authenticationManager;
-        this.tokenService = tokenService;
+    public AuthController(UserRepository userRepository,
+                          UserService userService){
+        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @PostMapping("/auth/create-account")
@@ -39,8 +33,8 @@ public class AuthController {
                            RedirectAttributes redirectAttributes) {
 
         try {
-            RegisterDTORequest data = new RegisterDTORequest(customerID, name, lastName, email, password, accType);
-            authorizationService.registerNewUser (data);
+            RegisterDTORequest data = new RegisterDTORequest(customerID, password, name, lastName, email, accType);
+            userService.registerNewUser(data);
 
             redirectAttributes.addFlashAttribute("successMessage", "Congratulations! Your registration was successful.");
             return "redirect:/";
@@ -52,27 +46,26 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public String login(@RequestParam String email, @RequestParam String rawPassword, Model model, HttpSession session) {
-        try {
-            String password = new BCryptPasswordEncoder().encode(rawPassword);
-            var usernamePassword = new UsernamePasswordAuthenticationToken(email, password);
-            var auth = this.authenticationManager.authenticate(usernamePassword);
+    public String login(@RequestParam String email, @RequestParam String password, Model model,
+                        HttpServletResponse response) {
 
-            System.out.println("Authenticated user: " + auth.getName());
+        LoginDTORequest data = new LoginDTORequest(email,password);
+        String login = userService.loginUser(data);
 
-            var token = tokenService.generateToken((User ) auth.getPrincipal());
-
-            session.setAttribute("token", token);
+        if(login.equalsIgnoreCase("ok")){
             return "redirect:/user-menu";
-        } catch (Exception e) {
+        } else {
             model.addAttribute("error", "Invalid email or password");
             return "login";
         }
     }
 
-    @GetMapping("/auth/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
+    @PostMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return "redirect:/login";
     }
 }
