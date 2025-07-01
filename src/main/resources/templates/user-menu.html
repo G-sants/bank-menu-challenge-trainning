@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>User Menu</title>
 </head>
@@ -9,19 +9,19 @@
 
 <ul>
     <li>
-        <button type="button" onclick="accessData()">Access Data</button>
+        <button type="button" onclick="window.location.href='@{/protected-data}'">Access Data</button>
     </li>
     <li>
-        <button type="button" onclick="accessCards()">Manage Cards</button>
+        <button type="button" onclick="window.location.href='@{/manage-cards}'">Manage Cards</button>
     </li>
     <li>
-        <button type="button" onclick="payment()">Payments</button>
+        <button type="button" onclick="window.location.href='@{/payment}'">Payment</button>
     </li>
     <li>
-        <button type="button" onclick="transfers()">Transfer</button>
+        <button type="button" onclick="window.location.href='@{/transfer}'">Transfer</button>
     </li>
     <li>
-        <button type="button" onclick="exit()">Logout</button>
+        <button type="button" onclick="window.location.href='@{/logout}'">Logout</button>
     </li>
 </ul>
 

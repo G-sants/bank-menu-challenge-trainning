@@ -1,4 +1,4 @@
-package g.sants.microservices_communication.application.port.input.controllers.webpages;
+package g.sants.microservices_communication.application.port.input.webpages;
 
 import org.springframework.ui.Model;
 import g.sants.microservices_communication.domain.User;

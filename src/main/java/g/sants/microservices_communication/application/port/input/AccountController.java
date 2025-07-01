@@ -1,4 +1,4 @@
-package g.sants.microservices_communication.application.port.input.controllers;
+package g.sants.microservices_communication.application.port.input;
 
 import org.springframework.stereotype.Controller;
 

@@ -81,25 +81,24 @@ public class Account {
 
             switch (menu) {
                 case 1:
-                    double lim = 500;
                     accountLimit += 500;
-                    System.out.println("Seu limit foi alterado para: " + accountLimit);
+                    System.out.println("Your limit was changed to: " + accountLimit);
                     break;
                 case 2:
                     accountLimit += 1000;
-                    System.out.println("Seu limit foi alterado para: " + accountLimit);
+                    System.out.println("Your limit was changed to: " + accountLimit);
                     break;
                 case 3:
                     accountLimit += 1500;
-                    System.out.println("Seu limit foi alterado para: " + accountLimit);
+                    System.out.println("Your limit was changed to: " + accountLimit);
                     break;
                 case 4:
                     accountLimit += 2000;
-                    System.out.println("Seu limit foi alterado para: " + accountLimit);
+                    System.out.println("Your limit was changed to: " + accountLimit);
                     break;
             }
         } else {
-            System.out.println("No momento não é possivel alterar seu limit");
+            System.out.println("In the moment we can't update your limit");
         }
     }
 

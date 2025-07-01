@@ -1,4 +1,4 @@
-package g.sants.microservices_communication.application.port.input.controllers.webpages;
+package g.sants.microservices_communication.application.port.input.webpages;
 
 import g.sants.microservices_communication.application.dto.LoginDTORequest;
 import g.sants.microservices_communication.application.dto.RegisterDTORequest;

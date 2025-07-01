@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Area</title>
+</head>
+<body>
+<h1>Type the Order ID to Process Payment</h1>
+<form th:action="@{/pay/checkout}" method="post">
+    <div>
+        <label>Order ID:</label>
+        <label>
+            <input type="number" name="id" required />
+        </label>
+    </div>
+    <button type="submit">Pay</button>
+</form>
+<a th:href="@{/}">Back to Menu</a>
+</body>
+</html>
+   
