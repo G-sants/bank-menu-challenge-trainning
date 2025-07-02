@@ -2,8 +2,7 @@ package g.sants.microservices_communication.application.port.input.webpages;
 
 import g.sants.microservices_communication.application.dto.LoginDTORequest;
 import g.sants.microservices_communication.application.dto.RegisterDTORequest;
-import g.sants.microservices_communication.application.port.output.UserRepository;
-import g.sants.microservices_communication.application.services.UserService;
+import g.sants.microservices_communication.application.services.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final UserService userService;
+    private final AuthService authService;
 
     @Autowired
-    public AuthController(UserRepository userRepository,
-                          UserService userService){
-        this.userRepository = userRepository;
-        this.userService = userService;
+    public AuthController(AuthService authService){
+        this.authService = authService;
     }
 
     @PostMapping("/auth/create-account")
@@ -34,7 +30,7 @@ public class AuthController {
 
         try {
             RegisterDTORequest data = new RegisterDTORequest(customerID, password, name, lastName, email, accType);
-            userService.registerNewUser(data);
+            authService.registerNewUser(data);
 
             redirectAttributes.addFlashAttribute("successMessage", "Congratulations! Your registration was successful.");
             return "redirect:/";
@@ -50,7 +46,7 @@ public class AuthController {
                         HttpServletResponse response) {
 
         LoginDTORequest data = new LoginDTORequest(email,password);
-        String login = userService.loginUser(data);
+        String login = authService.loginUser(data);
 
         if(login.equalsIgnoreCase("ok")){
             return "redirect:/user-menu";

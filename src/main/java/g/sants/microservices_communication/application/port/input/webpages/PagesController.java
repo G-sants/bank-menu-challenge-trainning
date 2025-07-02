@@ -9,6 +9,9 @@ public class PagesController {
     @GetMapping("/pay")
     public String showPaymentPage(){return "payment";}
 
+    @GetMapping("/user/manage-credit-card")
+    public String showCreditCardsPage(){return "credit-card-menu";}
+
     @GetMapping("/auth/logout")
     public String logout() {
         return "redirect:/login";

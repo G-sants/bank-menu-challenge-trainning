@@ -9,10 +9,14 @@
 
 <ul>
     <li>
-        <button type="button" onclick="window.location.href='@{/protected-data}'">Access Data</button>
+        <form th:action="@{/user/get-data}" method="get">
+            <button type="submit">View Data</button>
+        </form>
     </li>
     <li>
-        <button type="button" onclick="window.location.href='@{/manage-cards}'">Manage Cards</button>
+        <form th:action="@{/user/manage-cards}" method="get">
+            <button type="submit">Manage Credit Cards</button>
+        </form>
     </li>
     <li>
         <form th:action="@{/pay}" method="get">
