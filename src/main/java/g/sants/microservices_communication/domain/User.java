@@ -1,7 +1,6 @@
 package g.sants.microservices_communication.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,6 +31,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String accType;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Account account;
+
     public User (Long customerID, String password, String name, String lastName,
                  String email, String accType) {
         this.customerID = customerID;
@@ -40,6 +42,10 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.email = email;
         this.accType = accType;
+            this.account = new Account();
+            this.account.setUser (this);
+            account.setAccType(getAccType());
+            account.setAccountLimit(500);
     }
 
     public User() {
@@ -104,6 +110,14 @@ public class User implements UserDetails {
 
     public void setAccType(String accType) {
         this.accType = accType;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override

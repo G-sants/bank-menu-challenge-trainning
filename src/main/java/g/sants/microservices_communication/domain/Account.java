@@ -1,16 +1,15 @@
 package g.sants.microservices_communication.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalTime;
 import java.util.*;
 
 import static java.lang.System.out;
 
+
 @Entity
+@Table(name = "Bank_Account")
 public class Account {
 
     @Id
@@ -22,14 +21,15 @@ public class Account {
     private List<Double> histVal;
     private List<String> histCode;
 
-    public Account(double balance, double limit,
-                   String accType, List<Double> histVal, List<String> histCode) {
-        this.balance = balance;
-        this.accountLimit = limit;
-        this.accType = accType;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Account(List<Double> histVal, List<String> histCode) {
         this.histVal = histVal;
         this.histCode = histCode;
     }
+
     public Account(){}
 
     public void limitValidation() {
@@ -172,5 +172,13 @@ public class Account {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
