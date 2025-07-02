@@ -15,7 +15,7 @@ public class PaymentService {
         this.restTemplate = restTemplate;
     }
 
-    public Order retrieveOrder(String orderId){
-        return restTemplate.getForObject("https://localhost:8081/order", Order.class);
+    public Order retrieveOrder(String orderId) {
+        return restTemplate.getForObject("http://localhost:8081/checkout/order/" + orderId, Order.class);
     }
 }

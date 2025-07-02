@@ -22,12 +22,12 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String showLoginPage() {
+    public String showLoginPage(Model model) {
         return "login";
     }
 
     @GetMapping("/user-menu")
-    public String userMenu() {
+    public String userMenu(Model model) {
         return "user-menu";
     }
 }

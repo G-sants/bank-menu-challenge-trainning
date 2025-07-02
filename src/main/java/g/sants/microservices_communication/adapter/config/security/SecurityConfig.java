@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/","/login","/create-account").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/login","/auth/create-account").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/pay").permitAll()
                         .anyRequest().permitAll())
                 .build();
     }

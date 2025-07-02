@@ -14,18 +14,16 @@ import static java.lang.System.out;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // Use AUTO or SEQUENCE based on your DB
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
-    private  List<Integer> acc;
     private double balance;
     private double accountLimit;
     private String accType;
     private List<Double> histVal;
     private List<String> histCode;
 
-    public Account(List<Integer> acc, double balance, double limit,
+    public Account(double balance, double limit,
                    String accType, List<Double> histVal, List<String> histCode) {
-        this.acc = accGenerate();
         this.balance = balance;
         this.accountLimit = limit;
         this.accType = accType;
@@ -33,20 +31,6 @@ public class Account {
         this.histCode = histCode;
     }
     public Account(){}
-
-    private List<Integer> accGenerate() {
-        List<Integer> acc = new ArrayList<>();
-        Random random = new Random();
-        int numAg = random.nextInt(9999);
-        int numOp = random.nextInt(999);
-        int numCont = random.nextInt(99999999);
-        int numVer = random.nextInt(9);
-        acc.add(numAg);
-        acc.add(numCont);
-        acc.add(numOp);
-        acc.add(numVer);
-        return acc;
-    }
 
     public void limitValidation() {
         double nVal = 0.0;
@@ -60,7 +44,6 @@ public class Account {
         }
 
     }
-
 
     public void limitChange(double ver) {
         ver -= accountLimit;
@@ -157,14 +140,6 @@ public class Account {
         out.println("Your Balance is " + account.getBalance());
         out.println("Your Limit is " + account.getAccountLimit());
         out.println("Your Account is " + account.getAccType());
-    }
-
-    public List<Integer> getAcc() {
-        return acc;
-    }
-
-    public void setAcc(List<Integer> acc) {
-        this.acc = acc;
     }
 
     public double getBalance() {

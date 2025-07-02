@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Information</title>
+</head>
+<body>
+  <h1>Here is the Order you Retrieved</h1>
+  <h3>Please confirm the information in it.</h3>
+
+  <div>
+    <p><strong>Order ID:</strong> <span th:text="${order.id}"></span></p>
+    <p><strong>Total Price(U$):</strong> <span th:text="${order.totalPrice}"></span></p>
+    <p><strong>Checkout Date:</strong> <span th:text="${formattedCheckOutDate}"></span></p>
+  </div>
+
+  <form th:action="@{/user-menu}" method="get">
+    <button type="submit">Return to Menu</button>
+  </form>
+  <form th:action="@{/pay}" method="get">
+    <button type="submit">Check Other Order</button>
+  </form>
+
+</body>
+</html>
