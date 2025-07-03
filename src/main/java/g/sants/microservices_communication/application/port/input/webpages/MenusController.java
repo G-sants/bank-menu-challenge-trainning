@@ -81,8 +81,9 @@ public class MenusController {
     }
 
     @PostMapping("/pay/pay-order")
-    public String payOrder(@PathVariable Long userId, @PathVariable Double price){
-        paymentService.payOrder(userId,price);
+    public String payOrder(@PathVariable Long userId, @RequestParam Double price,
+                           @RequestParam String orderId){
+        paymentService.payOrder(userId, orderId, price);
         return "redirect:/payment";
     }
 }

@@ -29,7 +29,7 @@ public class PaymentService {
         return restTemplate.getForObject("http://localhost:8081/checkout/order/" + orderId, Order.class);
     }
 
-    public void payOrder(Long userID, Double price) {
+    public void payOrder(Long userID, String orderId, Double price) {
         Optional<User> userOpt = userRepository.findById(userID);
         User user;
         if (userOpt.isPresent()) {
@@ -39,6 +39,13 @@ public class PaymentService {
         Account account = user.getAccount();
         if (account.timeValidation() && account.balanceCheck(price)){
             account.setBalance(account.getBalance()-price);
+            changeOrderStatus(orderId);
         }throw  new InsufficientBalanceException();
+
+
+    }
+
+    private void changeOrderStatus(String orderId) {
+        restTemplate.getForObject("http://localhost:8081/checkout/order/payed",Order.class);
     }
 }

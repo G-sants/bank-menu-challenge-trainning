@@ -18,6 +18,9 @@
     <label>
       <input type="hidden" name="price" th:value="${order.totalPrice}" readonly>
     </label>
+    <label>
+      <input type="hidden" name="orderId" th:value="${order.id}" readonly>
+    </label>
     <button type="submit">Pay</button>
   </form>
 
