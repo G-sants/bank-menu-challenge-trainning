@@ -48,4 +48,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 "This email has already been used to register an user", exception.getMessage());
         return new ResponseEntity<>(errorsResponse,HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(CannotChangeLimitException.class)
+    public ResponseEntity<ErrorsResponse> cannotChangeLimitException(CannotChangeLimitException exception){
+        ErrorsResponse errorsResponse = new ErrorsResponse(LocalDateTime.now(), HttpStatus.BAD_REQUEST.value(),
+                "The Limit can't be changed in the moment", exception.getMessage());
+        return new ResponseEntity<>(errorsResponse,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<ErrorsResponse> insufficientBalanceException(InsufficientBalanceException exception){
+        ErrorsResponse errorsResponse = new ErrorsResponse(LocalDateTime.now(), HttpStatus.FORBIDDEN.value(),
+                "Balance is not enough for complete the Purchase", exception.getMessage());
+        return new ResponseEntity<>(errorsResponse,HttpStatus.FORBIDDEN);
+    }
 }

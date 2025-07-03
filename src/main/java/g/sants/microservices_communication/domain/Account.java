@@ -1,5 +1,7 @@
 package g.sants.microservices_communication.domain;
 
+import g.sants.microservices_communication.application.exceptions.errors.CannotChangeLimitException;
+import g.sants.microservices_communication.application.exceptions.errors.InsufficientBalanceException;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
@@ -39,10 +41,7 @@ public class Account {
         }
         if (nVal > 0) {
             limitChange(nVal);
-        } else {
-            System.out.println("your limit cannot be change right now, Please try again later");
-        }
-
+        } else throw new CannotChangeLimitException();
     }
 
     public void limitChange(double ver) {
@@ -80,9 +79,7 @@ public class Account {
                     System.out.println("Your limit was changed to: " + accountLimit);
                     break;
             }
-        } else {
-            System.out.println("In the moment we can't update your limit");
-        }
+        } else throw new CannotChangeLimitException();
     }
 
     public void depAccount(Double deposit) {
@@ -134,12 +131,11 @@ public class Account {
         LocalTime currentTime = LocalTime.now();
         return !(currentTime.isAfter(timeCheckUp) & currentTime.isBefore(timeCheckDown));
     }
-
-    public void accAccData() {
-        Account account = new Account();
-        out.println("Your Balance is " + account.getBalance());
-        out.println("Your Limit is " + account.getAccountLimit());
-        out.println("Your Account is " + account.getAccType());
+    public boolean balanceCheck(Double price){
+        if(getBalance()<price){
+            throw new InsufficientBalanceException();
+        }
+        return true;
     }
 
     public double getBalance() {

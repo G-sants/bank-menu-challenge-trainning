@@ -3,9 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Account Information</title>
+
+  <style>
+    .limit-message {
+        color: green;
+        font-weight: bold;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid green;
+        background-color: #f0fff0;
+    }
+    .error1-message {
+            color: red;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid red;
+            background-color: #f08080;
+        }
+    .error2-message {
+            color: red;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid red;
+            background-color: #f08080;
+        }
+  </style>
+
 </head>
 <body>
   <h1>Here is the Information About Your Account</h1>
+
+  <div th:if="${limitUpdateMessage}" class="limit-message" th:text="${limitUpdateMessage}"></div>
+  <div th:if="${limitErrorMessage}" class="error1-message" th:text="${limitErrorMessage}"></div>
+  <div th:if="${limitError2Message}" class="error2-message" th:text="${limitError2Message}"></div>
+
 
   <div>
     <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
@@ -14,6 +47,11 @@
     <p><strong>Balance:</strong> <span th:number="${account.balance}"></span></p>
     <p><strong>Limit:</strong> <span th:number="${account.limit}"></span></p>
   </div>
+
+
+  <form th:action="@{/account/change-limit}" method="get">
+    <button type="submit">Change Limit</button>
+  </form>
 
   <form th:action="@{/user-menu}" method="get">
     <button type="submit">Return to Menu</button>

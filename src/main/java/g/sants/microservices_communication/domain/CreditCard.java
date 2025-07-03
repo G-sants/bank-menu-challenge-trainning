@@ -1,9 +1,7 @@
 package g.sants.microservices_communication.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
@@ -11,13 +9,18 @@ import java.util.UUID;
 public class CreditCard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // Use AUTO or SEQUENCE based on your DB
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
     private String name;
     private String lastName;
     private long customerID;
     private long cardID;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
+    private User user;
 
     public CreditCard(String name, String lastName, long customerID, long cardID) {
         this.name = name;
@@ -64,5 +67,13 @@ public class CreditCard {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
