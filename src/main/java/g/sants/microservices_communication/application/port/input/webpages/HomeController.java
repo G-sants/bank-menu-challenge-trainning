@@ -1,5 +1,6 @@
 package g.sants.microservices_communication.application.port.input.webpages;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import g.sants.microservices_communication.domain.User;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,9 @@ public class HomeController {
     }
 
     @GetMapping("/user-menu")
-    public String userMenu(Model model) {
+    public String userMenu(Model model, Authentication auth) {
+        String username = auth.getIdentification();
+        model.addAttribute("username", username);
         return "user-menu";
     }
 }

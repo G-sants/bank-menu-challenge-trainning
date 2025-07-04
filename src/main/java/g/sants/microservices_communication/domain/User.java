@@ -138,7 +138,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return String.valueOf(customerID);
+        return String.valueOf(email);
     }
 
     @Override

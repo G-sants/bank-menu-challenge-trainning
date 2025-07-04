@@ -2,10 +2,14 @@ package g.sants.microservices_communication.application.port.input.webpages;
 
 import g.sants.microservices_communication.application.dto.LoginDTORequest;
 import g.sants.microservices_communication.application.dto.RegisterDTORequest;
-import g.sants.microservices_communication.application.services.AuthService;
+import g.sants.microservices_communication.application.services.auth.AuthService;
+import g.sants.microservices_communication.application.services.auth.TokenService;
+import g.sants.microservices_communication.domain.User;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +20,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthController {
 
     private final AuthService authService;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
     @Autowired
-    public AuthController(AuthService authService){
+    public AuthController(AuthService authService, AuthenticationManager authenticationManager,
+                          TokenService tokenService){
         this.authService = authService;
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/auth/create-account")
@@ -42,26 +51,29 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
-    public String login(@RequestParam String email, @RequestParam String password, Model model,
-                        HttpServletResponse response) {
+    public String login(@RequestParam String email, @RequestParam String password,
+                        Model model, HttpServletResponse response) {
 
         LoginDTORequest data = new LoginDTORequest(email,password);
-        String login = authService.loginUser(data);
 
-        if(login.equalsIgnoreCase("ok")){
+        var usernamePassword = new UsernamePasswordAuthenticationToken
+                (data.email(), data.password());
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        tokenService.addTokenToCookie(response, token);
+
             return "redirect:/user-menu";
         } else {
             model.addAttribute("error", "Invalid email or password");
             return "login";
-        }
     }
+
 
     @PostMapping("/logout")
     public String logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("token", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        tokenService.removeTokenCookie(response);
         return "redirect:/login";
     }
 }
