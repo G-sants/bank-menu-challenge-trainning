@@ -45,7 +45,10 @@ public class PaymentService {
 
     }
 
-    private void changeOrderStatus(String orderId) {
-        restTemplate.getForObject("http://localhost:8081/checkout/order/payed",Order.class);
+    private void changeOrderStatus(String orderID) {
+        String url = "http://localhost:8081/checkout/order/{orderID}/payed";
+        restTemplate.put(url,
+                null,
+                orderID);
     }
 }
